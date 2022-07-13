@@ -28,8 +28,8 @@ snmpdemoapp: snmpdemoapp.o
 asyncapp: asyncapp.o
 	$(CC) -o $@ $@.o $(BUILDLIBS)
 
-example-demon: example-demon.o nstAgentSubagentObject.o
-	$(CC) -o $@ $@.o nstAgentSubagentObject.o $(BUILDAGENTLIBS)
+example-demon: example-demon.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o
+	$(CC) -o $@ $@.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o $(BUILDAGENTLIBS)
 
 clean:
 	rm -f -- *.o $(TARGETS)

@@ -4,6 +4,8 @@
 #include <signal.h>
 
 #include "nstAgentSubagentObject.h"
+#include "nmxCentaurScalars.h"
+#include "nstAgentPluginObject.h"
 
 static int keep_running;
 
@@ -44,6 +46,10 @@ main (int argc, char **argv) {
 
   /* mib code: init_nstAgentSubagentObject from nstAgentSubagentObject.C */
   init_nstAgentSubagentObject();  
+
+  init_nstAgentPluginObject();
+
+  init_nmxCentaurScalars();
 
   /* initialize vacm/usm access control  */
   if (!agentx_subagent) {
