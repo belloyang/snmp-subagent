@@ -38,7 +38,7 @@ nanometrics MODULE-IDENTITY
 nmxCentaurSohReport         OBJECT IDENTIFIER ::= { nanometrics 1 }
 
 nmxCentaurScalars       OBJECT IDENTIFIER ::= { nmxCentaurSohReport 1 }
-netSnmpExampleTables        OBJECT IDENTIFIER ::= { nmxCentaurSohReport 2 }
+nmxCentaurTables        OBJECT IDENTIFIER ::= { nmxCentaurSohReport 2 }
 netSnmpExampleNotifications OBJECT IDENTIFIER ::= { nmxCentaurSohReport 3 }
 netSnmpExampleNotificationPrefix  OBJECT IDENTIFIER
                                   ::= { netSnmpExampleNotifications 0 }
@@ -108,8 +108,8 @@ nmxCentaurSohString OBJECT-TYPE
 --  Example Tables
 --
 
-netSnmpIETFWGTable OBJECT-TYPE
-    SYNTAX      SEQUENCE OF NetSnmpIETFWGEntry
+nmxCentaurIETFWGTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF NmxCentaurIETFWGEntry
     MAX-ACCESS  not-accessible
     STATUS      current
     DESCRIPTION
@@ -120,18 +120,18 @@ netSnmpIETFWGTable OBJECT-TYPE
 
 	 This example table is implemented in the
 	 agent/mibgroup/examples/data_set.c file."
-    ::= { netSnmpExampleTables 1 }
+    ::= { nmxCentaurTables 1 }
 
-netSnmpIETFWGEntry OBJECT-TYPE
-    SYNTAX      NetSnmpIETFWGEntry
+NmxCentaurIETFWGEntry OBJECT-TYPE
+    SYNTAX      NmxCentaurIETFWGEntry
     MAX-ACCESS  not-accessible
     STATUS      current
     DESCRIPTION
 	"A row describing a given working group"
     INDEX   { nsIETFWGName }
-    ::= {netSnmpIETFWGTable 1 }
+    ::= {nmxCentaurIETFWGTable 1 }
 
-NetSnmpIETFWGEntry ::= SEQUENCE {
+NmxCentaurIETFWGEntry ::= SEQUENCE {
 	nsIETFWGName	OCTET STRING,
 	nsIETFWGChair1	OCTET STRING,
 	nsIETFWGChair2	OCTET STRING
@@ -143,7 +143,7 @@ nsIETFWGName OBJECT-TYPE
     STATUS      current
     DESCRIPTION
 	"The name of the IETF Working Group this table describes."
-    ::= { netSnmpIETFWGEntry 1 }
+    ::= { NmxCentaurIETFWGEntry 1 }
 
 nsIETFWGChair1 OBJECT-TYPE
     SYNTAX      OCTET STRING
@@ -151,7 +151,7 @@ nsIETFWGChair1 OBJECT-TYPE
     STATUS      current
     DESCRIPTION
 	"One of the names of the chairs for the IETF working group."
-    ::= { netSnmpIETFWGEntry 2 }
+    ::= { NmxCentaurIETFWGEntry 2 }
 
 nsIETFWGChair2 OBJECT-TYPE
     SYNTAX      OCTET STRING
@@ -160,7 +160,7 @@ nsIETFWGChair2 OBJECT-TYPE
     DESCRIPTION
 	"The other name, if one exists, of the chairs for the IETF
 	working group."
-    ::= { netSnmpIETFWGEntry 3 }
+    ::= { NmxCentaurIETFWGEntry 3 }
 
 --
 -- A table used in a table_iterator example
@@ -174,7 +174,7 @@ netSnmpHostsTable OBJECT-TYPE
     DESCRIPTION
 	"An example table that implements a wrapper around the
 	/etc/hosts file on a machine using the iterator helper API."
-    ::= { netSnmpExampleTables 2 }
+    ::= { nmxCentaurTables 2 }
 
 netSnmpHostsEntry OBJECT-TYPE
     SYNTAX      NetSnmpHostsEntry
