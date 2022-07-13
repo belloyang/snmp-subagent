@@ -104,7 +104,7 @@ int main(int argc, char ** argv)
       SOCK_CLEANUP;
       exit(1);
     }
-#if OTHER_METHODS
+#ifdef OTHER_METHODS
     /*
      *  These are alternatives to the 'snmp_parse_oid' call above,
      *    e.g. specifying the OID by name rather than numerically.
