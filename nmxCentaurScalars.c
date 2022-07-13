@@ -14,9 +14,9 @@ init_nmxCentaurScalars(void)
 {
     const oid       nmxCentaurSohInteger_oid[] =
         { 1, 3, 6, 1, 4, 1, 58765, 1, 1, 1 };
-    const oid       netSnmpExampleSleeper_oid[] =
+    const oid       nmxCentaurSohSleeper_oid[] =
         { 1, 3, 6, 1, 4, 1, 58765, 1, 1, 2 };
-    const oid       netSnmpExampleString_oid[] =
+    const oid       nmxCentaurSohString_oid[] =
         { 1, 3, 6, 1, 4, 1, 58765, 1, 1, 3 };
 
     DEBUGMSGTL(("nmxCentaurScalars", "Initializing\n"));
@@ -28,16 +28,16 @@ init_nmxCentaurScalars(void)
                              OID_LENGTH(nmxCentaurSohInteger_oid),
                              HANDLER_CAN_RWRITE));
     netsnmp_register_scalar(netsnmp_create_handler_registration
-                            ("netSnmpExampleSleeper",
-                             handle_netSnmpExampleSleeper,
-                             netSnmpExampleSleeper_oid,
-                             OID_LENGTH(netSnmpExampleSleeper_oid),
+                            ("nmxCentaurSohSleeper",
+                             handle_nmxCentaurSohSleeper,
+                             nmxCentaurSohSleeper_oid,
+                             OID_LENGTH(nmxCentaurSohSleeper_oid),
                              HANDLER_CAN_RWRITE));
     netsnmp_register_scalar(netsnmp_create_handler_registration
-                            ("netSnmpExampleString",
-                             handle_netSnmpExampleString,
-                             netSnmpExampleString_oid,
-                             OID_LENGTH(netSnmpExampleString_oid),
+                            ("nmxCentaurSohString",
+                             handle_nmxCentaurSohString,
+                             nmxCentaurSohString_oid,
+                             OID_LENGTH(nmxCentaurSohString_oid),
                              HANDLER_CAN_RWRITE));
 }
 
@@ -86,7 +86,7 @@ handle_nmxCentaurSohInteger(netsnmp_mib_handler *handler,
 }
 
 int
-handle_netSnmpExampleSleeper(netsnmp_mib_handler *handler,
+handle_nmxCentaurSohSleeper(netsnmp_mib_handler *handler,
                              netsnmp_handler_registration *reginfo,
                              netsnmp_agent_request_info *reqinfo,
                              netsnmp_request_info *requests)
@@ -120,7 +120,7 @@ handle_netSnmpExampleSleeper(netsnmp_mib_handler *handler,
          * we should never get here, so this is a really bad error 
          */
         snmp_log(LOG_ERR,
-                 "unknown mode (%d) in handle_netSnmpExampleSleeper\n",
+                 "unknown mode (%d) in handle_nmxCentaurSohSleeper\n",
                  reqinfo->mode);
         return SNMP_ERR_GENERR;
     }
@@ -129,12 +129,12 @@ handle_netSnmpExampleSleeper(netsnmp_mib_handler *handler,
 }
 
 int
-handle_netSnmpExampleString(netsnmp_mib_handler *handler,
+handle_nmxCentaurSohString(netsnmp_mib_handler *handler,
                             netsnmp_handler_registration *reginfo,
                             netsnmp_agent_request_info *reqinfo,
                             netsnmp_request_info *requests)
 {
-    int             ret;
+    // int             ret;
     char    retStr[] = "1234";
     /*
      * We are never called for a GETNEXT if it's registered as a
@@ -165,7 +165,7 @@ handle_netSnmpExampleString(netsnmp_mib_handler *handler,
          * we should never get here, so this is a really bad error 
          */
         snmp_log(LOG_ERR,
-                 "unknown mode (%d) in handle_netSnmpExampleString\n",
+                 "unknown mode (%d) in handle_nmxCentaurSohString\n",
                  reqinfo->mode);
         return SNMP_ERR_GENERR;
     }

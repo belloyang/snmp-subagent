@@ -10,7 +10,7 @@
  */
 void            init_nmxCentaurScalars(void);
 Netsnmp_Node_Handler handle_nmxCentaurSohInteger;
-Netsnmp_Node_Handler handle_netSnmpExampleSleeper;
-Netsnmp_Node_Handler handle_netSnmpExampleString;
+Netsnmp_Node_Handler handle_nmxCentaurSohSleeper;
+Netsnmp_Node_Handler handle_nmxCentaurSohString;
 
 #endif                          /* NMXCENTAURSCALARS_H */
