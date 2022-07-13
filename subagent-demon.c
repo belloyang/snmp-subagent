@@ -40,7 +40,7 @@ main (int argc, char **argv) {
   SOCK_STARTUP;
 
   /* initialize the agent library */
-  init_agent("example-demon");
+  init_agent("subagent-demon");
 
   /* initialize mib code here */
 
@@ -57,8 +57,8 @@ main (int argc, char **argv) {
       init_usm();
   }
 
-  /* example-demon will be used to read example-demon.conf files. */
-  init_snmp("example-demon");
+  /* subagent-demon will be used to read subagent-demon.conf files. */
+  init_snmp("subagent-demon");
 
   /* If we're going to be a snmp master agent, initial the ports */
   if (!agentx_subagent)
@@ -69,7 +69,7 @@ main (int argc, char **argv) {
   signal(SIGTERM, stop_server);
   signal(SIGINT, stop_server);
 
-  snmp_log(LOG_INFO,"example-demon is up and running.\n");
+  snmp_log(LOG_INFO,"subagent-demon is up and running.\n");
 
   /* your main loop here... */
   while(keep_running) {
@@ -79,7 +79,7 @@ main (int argc, char **argv) {
   }
 
   /* at shutdown time */
-  snmp_shutdown("example-demon");
+  snmp_shutdown("subagent-demon");
   SOCK_CLEANUP;
 
   return 0;

@@ -9,7 +9,7 @@
 
 CC=gcc
 
-TARGETS=example-demon snmpdemoapp asyncapp
+TARGETS=subagent-demon snmpdemoapp asyncapp
 
 NET_SNMP_CONFIG=net-snmp-config
 CFLAGS=`$(NET_SNMP_CONFIG) --cflags` -Wall -Wextra -Werror \
@@ -28,7 +28,7 @@ snmpdemoapp: snmpdemoapp.o
 asyncapp: asyncapp.o
 	$(CC) -o $@ $@.o $(BUILDLIBS)
 
-example-demon: example-demon.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o
+subagent-demon: subagent-demon.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o
 	$(CC) -o $@ $@.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o $(BUILDAGENTLIBS)
 
 clean:
