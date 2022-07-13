@@ -8,6 +8,10 @@
 #include <net-snmp/agent/net-snmp-agent-includes.h>
 #include "nmxCentaurScalars.h"
 
+
+int nmxCentaurSohInteger = 1;
+int nmxCentaurSohSleeper = 2;
+char nmxCentaurSohString[] = "test";
 /** Initializes the nmxCentaurScalars module */
 void
 init_nmxCentaurScalars(void)
@@ -47,7 +51,8 @@ handle_nmxCentaurSohInteger(netsnmp_mib_handler *handler,
                             netsnmp_agent_request_info *reqinfo,
                             netsnmp_request_info *requests)
 {
-    int             ret = 123;
+    int             ret;
+    int*            origin_value = NULL;
     /*
      * We are never called for a GETNEXT if it's registered as a
      * "instance", as it's "magically" handled for us.  
@@ -64,13 +69,70 @@ handle_nmxCentaurSohInteger(netsnmp_mib_handler *handler,
         snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
                                  /*
                                   * XXX: a pointer to the scalar's data 
-                                  */ &ret,
+                                  */ &nmxCentaurSohInteger,
                                  /*
                                   * XXX: the length of the data in bytes 
-                                  */ sizeof(ret));
+                                  */ sizeof(nmxCentaurSohInteger));
         break;
 
-       
+    /*
+         * SET REQUEST
+         *
+         * multiple states in the transaction.  See:
+         * http://www.net-snmp.org/tutorial-5/toolkit/mib_module/set-actions.jpg
+         */
+    case MODE_SET_RESERVE1:
+        /*
+         * or you could use netsnmp_check_vb_type_and_size instead 
+         */
+        ret = netsnmp_check_vb_type(requests->requestvb, ASN_INTEGER);
+        if (ret != SNMP_ERR_NOERROR) {
+            netsnmp_set_request_error(reqinfo, requests, ret);
+        }
+        break;
+
+    case MODE_SET_RESERVE2:
+        /*
+         * XXX malloc "undo" storage buffer 
+         */
+        origin_value = netsnmp_memdup(&nmxCentaurSohInteger, sizeof(nmxCentaurSohInteger));
+        if ( origin_value == NULL) {
+            netsnmp_set_request_error(reqinfo, requests,
+                                      SNMP_ERR_RESOURCEUNAVAILABLE);
+        }
+        break;
+
+    case MODE_SET_FREE:
+        /*
+         * XXX: free resources allocated in RESERVE1 and/or
+         * RESERVE2.  Something failed somewhere, and the states
+         * below won't be called. 
+         */
+        free(origin_value);
+        break;
+
+    case MODE_SET_ACTION:
+        /*
+         * XXX: perform the value change here 
+         */
+        nmxCentaurSohInteger = *(requests->requestvb->val.integer);
+        
+        break;
+
+    case MODE_SET_COMMIT:
+        /*
+         * XXX: delete temporary storage 
+         */
+        free(origin_value);
+        break;
+
+    case MODE_SET_UNDO:
+        /*
+         * XXX: UNDO and return to previous value for the object 
+         */
+        nmxCentaurSohInteger = *origin_value;
+        
+        break;
 
     default:
         /*
@@ -91,7 +153,6 @@ handle_nmxCentaurSohSleeper(netsnmp_mib_handler *handler,
                              netsnmp_agent_request_info *reqinfo,
                              netsnmp_request_info *requests)
 {
-    int             ret = 12;
     /*
      * We are never called for a GETNEXT if it's registered as a
      * "instance", as it's "magically" handled for us.  
@@ -108,10 +169,10 @@ handle_nmxCentaurSohSleeper(netsnmp_mib_handler *handler,
         snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
                                  /*
                                   * XXX: a pointer to the scalar's data 
-                                  */ &ret,
+                                  */ &nmxCentaurSohSleeper,
                                  /*
                                   * XXX: the length of the data in bytes 
-                                  */ sizeof(ret));
+                                  */ sizeof(nmxCentaurSohSleeper));
         break;
 
       
@@ -134,8 +195,6 @@ handle_nmxCentaurSohString(netsnmp_mib_handler *handler,
                             netsnmp_agent_request_info *reqinfo,
                             netsnmp_request_info *requests)
 {
-    // int             ret;
-    char    retStr[] = "1234";
     /*
      * We are never called for a GETNEXT if it's registered as a
      * "instance", as it's "magically" handled for us.  
@@ -152,10 +211,10 @@ handle_nmxCentaurSohString(netsnmp_mib_handler *handler,
         snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
                                  /*
                                   * XXX: a pointer to the scalar's data 
-                                  */&retStr,
+                                  */&nmxCentaurSohString,
                                  /*
                                   * XXX: the length of the data in bytes 
-                                  */ sizeof(retStr));
+                                  */ sizeof(nmxCentaurSohString));
         break;
 
         
