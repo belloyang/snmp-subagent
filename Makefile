@@ -33,7 +33,7 @@ subagent-demon: subagent-demon.o nstAgentSubagentObject.o nmxCentaurScalars.o ns
 	$(CC) -o ${OUTDIR}/$@ $@.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o $(BUILDAGENTLIBS)
 
 clean:
-	rm -f -- *.o $(TARGETS)
+	rm -f -- *.o $(TARGETS) $(OUTDIR)/*
 
 nmxCentaurScalars.o: mibgroup/nmxCentaurScalars.c 
 	$(CC) $(CFLAGS) $(DLFLAGS) -c -o $@ mibgroup/nmxCentaurScalars.c
