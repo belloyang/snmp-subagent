@@ -35,8 +35,8 @@ Approach 1:
 3. Restart `snmpd` which now includes the newly added MIB module implementation.
 
 Approach 2:
-1. use `net-snmp-configure`:
-- run `net-snmp-configure --compile-subagent mysubagent nmxCentaurScalars.c`
+1. use `net-snmp-config`:
+- run `net-snmp-config --compile-subagent mysubagent nmxCentaurScalars.c`
 - `mysubagent` executable willd be generated after successfully built.
 2. run `mysubagent` as root. It will connect with the master agent `snmpd` and start supporting the new MIB module.
 
@@ -56,8 +56,16 @@ $ snmptranslate -IR -Tp NANOMETRICS-MIB:nmxCentaurScalars
 ```
 
 ## Run snmp and subagent for debugging (non-root)
+1. Start `snmpd` (as non-root) on customized ports
 ```
-$ snmp -f -Lo -C --rwcommunity=public --master=agentx --agentXSocket=tcp:localhost:1705 udp:1161
+$ snmpd -f -Lo -C --rwcommunity=public --master=agentx --agentXSocket=tcp:localhost:1705 udp:1161
+```
+2. Connect the subagent (created by approach 2) to the customized tcp port.
+```
+$ ./mysubagent -f -Lo -x tcp:localhost:1705
+```
+3. Run snmp tool on the udp port to quiry MIB object
+```
 $ snmpget -c public localhost:1161 NANOMETRICS-MIB:nmxCentaurSohInteger.0
 ```
 
