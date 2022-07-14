@@ -3,9 +3,9 @@
 #include <net-snmp/agent/net-snmp-agent-includes.h>
 #include <signal.h>
 
-#include "nstAgentSubagentObject.h"
-#include "nmxCentaurScalars.h"
-#include "nstAgentPluginObject.h"
+#include "mibgroup/nstAgentSubagentObject.h"
+#include "mibgroup/nmxCentaurScalars.h"
+#include "mibgroup/nstAgentPluginObject.h"
 
 static int keep_running;
 

@@ -16,6 +16,7 @@ CFLAGS=`$(NET_SNMP_CONFIG) --cflags` -Wall -Wextra -Werror \
 	-Wno-unused-parameter
 BUILDLIBS=`$(NET_SNMP_CONFIG) --libs`
 BUILDAGENTLIBS=`$(NET_SNMP_CONFIG) --agent-libs`
+OUTDIR=./bin
 
 # shared library flags (assumes gcc)
 DLFLAGS=-fPIC -shared
@@ -29,13 +30,20 @@ asyncapp: asyncapp.o
 	$(CC) -o $@ $@.o $(BUILDLIBS)
 
 subagent-demon: subagent-demon.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o
-	$(CC) -o $@ $@.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o $(BUILDAGENTLIBS)
+	$(CC) -o ${OUTDIR}/$@ $@.o nstAgentSubagentObject.o nmxCentaurScalars.o nstAgentPluginObject.o $(BUILDAGENTLIBS)
 
 clean:
 	rm -f -- *.o $(TARGETS)
 
-nstAgentPluginObject.o: nstAgentPluginObject.c Makefile
-	$(CC) $(CFLAGS) $(DLFLAGS) -c -o $@ nstAgentPluginObject.c
+nmxCentaurScalars.o: mibgroup/nmxCentaurScalars.c 
+	$(CC) $(CFLAGS) $(DLFLAGS) -c -o $@ mibgroup/nmxCentaurScalars.c
 
-nstAgentPluginObject.so: nstAgentPluginObject.o Makefile
-	$(CC) $(CFLAGS) $(DLFLAGS) -o $@ nstAgentPluginObject.o
+nstAgentSubagentObject.o: mibgroup/nstAgentSubagentObject.c 
+	$(CC) $(CFLAGS) $(DLFLAGS) -c -o $@ mibgroup/nstAgentSubagentObject.c
+
+nstAgentPluginObject.o: mibgroup/nstAgentPluginObject.c Makefile
+	$(CC) $(CFLAGS) $(DLFLAGS) -c -o $@ mibgroup/nstAgentPluginObject.c
+
+
+nstAgentPluginObject.so: mibgroup/nstAgentPluginObject.o Makefile
+	$(CC) $(CFLAGS) $(DLFLAGS) -o $@ mibgroup/nstAgentPluginObject.o
